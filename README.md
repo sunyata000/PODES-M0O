@@ -5,7 +5,7 @@
 <br>
 ## PODES-M0O特性
 PODES-M0O指令集设计参照ARMv6-M Architecture Reference Manual文档实现。PODES-M0O的功能模块设计参照Cortex-M0 generic user guide和Cortex-m0 technical reference manual两个文档实现。<br>
-PODES-M0O完全兼容Cortex-M0内核。为了更清楚地表明“兼容”的含义，下面不支持的Features，对比说明。
+PODES-M0O完全兼容Cortex-M0内核。为了更清楚地表明“兼容”的含义，下面列举出所有不支持的Features清单，对比说明。
 - Debug功能不支持<br>
 内核评估可以不需要这个功能，ROM版本ASIC实现也不需要这个功能。<br>
 - Hints指令不支持（SEV, WFI, WFE, YIELD）<br>
