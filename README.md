@@ -1,60 +1,48 @@
-## 1	概述
+# PODES
 
-
-### 是什么？
 **PODES**是**P**rocessor **O**ptmization for **D**eeply **E**mbedded **S**ystem的首字母缩写。包括传统的51指令集架构，SparcV8指令集架构，ARMv6-M指令集架构以及PIC-16指令集架构等一系列MCU Core。<br>
-**PODES-M0O** 是兼容于ARMv6-M指令集架构的开源版本。**M0**指代Cortex-M0，**O**指代Open Source。
-<br>
-### 为什么？
-做这个工作最开始的原因很简单，无聊和好玩。到后来觉得有趣，或许还有那么一点用处，所以就坚持做下来了。
-<br>
-### 有什么用？
-O（Open Source）系列最基本的作用当然是学习和研究。稍微认真地搜索一下国内网络资源就会发现，很难找到有质量的IC设计开源项目。作者相信这个项目应该对开源社区会有助益。
-<br>
-### 是谁？
-这不是一群人在战斗。这个项目是一个工程师在业余时间做的。
-<br>
-### 愿景？
-使深嵌入式应用的MCU Core IP的License费用趋近于0。
-<br>
-### 能否达成愿景？
-完全依赖于您的热心帮助！<br>
-小额赞助、购买FPGA开发板、提供开发支持、甚至是一条建议或者评论，都是鼓舞PODES前行的动力。如果您有意赞助，请使用手机支付扫一扫下面的二维码：<br>
-        <div align=center>支付宝扫一扫<br>
-![](https://github.com/sunyata000/PODES-M0O/blob/master/images/alipay.jpg?raw=true"支付宝赞赏")<br>
-         微信扫一扫 <br>
-![](https://github.com/sunyata000/PODES-M0O/blob/master/images/wechat.jpg?raw=true"微信赞赏") </div><br>
-<br>
-<br>
-## 2	对象和范围
+**PODES-M0O** 是兼容于ARMv6-M指令集架构的开源版本。**M0**指代Cortex-M0，**O**指代Open Source。<br>
 
-PODES-M0O是一个经过专门精简优化的开源版本，定位于学习和研究。任何想研究ARMv6-M或者Cortex-M0的人或者机构都可以从PODES-M0O获得帮助和启发。
 
-本手册是PODES-M0O IP的文档描述。内容包括：系统结构、指令集、功能模块、全部寄存器定义、以及应用接口指南。阅读本文档可以方便用户完整地理解PODES-M0O IP的设计思路和实现的功能。
+## 特性
+PODES-M0O指令集设计参照ARMv6-M Architecture Reference Manual文档实现。PODES-M0O的功能模块设计参照Cortex-M0 generic user guide和Cortex-m0 technical reference manual两个文档实现。
+PODES-M0O完全兼容Cortex-M0内核。为了更清楚地表明“兼容”的含义，下面不支持的Features，对比说明。
+- Debug功能不支持
+内核评估可以不需要这个功能，ROM版本ASIC实现也不需要这个功能。
+（M0A实现此功能模块）
 
-PODES-M0O不做修改或者稍作改动，可以直接应用于FPGA产品。用于ASIC实现则需要一些额外的设计修改工作。
-<br>
-<br>
-**PODES-M0O设计实现用户手册：（本文档）**<br>
-   *PODES-M0O_Implementation_User_Manual_Vxx.doc*<br>
-**PODES-M0O应用用户手册:**<br>
-   *PODES-M0O_Application_User_Manual_Vxx.doc*<br>
-**PODES-M0O评估板用户手册：**<br>
-   *PODES_M0O_Evaluation_Board_User_Manual_Vxx.doc*
+- Hints指令不支持（SEV, WFI, WFE, YIELD）
+这四条指令执行有标志信号引出，用户在低功耗或者多处理器设计中可以使用这些信号。
+如果代码中有这些指令，PODES-M0O会当成NOP执行。指令流水不会停止。
 
-**Cortex-M0的相关资料，下面的文档可供参考：**<br>
-   *DDI0432C_cortex_m0_r0p0_trm.pdf*<br>
-   *DUI0497A_cortex_m0_r0p0_generic_ug.pdf*<br>
-   *DDI0419B_arm_architecture_v6m_reference_manual_errata_markup_2_0.pdf*<br>
-<br>
-<br>
-<br>
-## 3	支持和服务
+- Cortex –M0的可配置特性
+PODES-M0O本身源代码开源，用户可以任意修改配置。没有必要提供功能配置选项，人为把代码搞复杂。
 
-www.mcucore.club 是PODES开源项目的官方维护网站。
+- 乘法器和加法器使用行为模型实现
+ASIC综合或者FPGA综合可以直接调用工艺库提供的宏单元，或者用户自己设计结构化代码。
 
-立足于保证PODES有用，作者会持续地维护这个项目。所有代码和文档资料的最新版本都可以从下面网站获得：
-www.mcucore.club
+## PODES-M0O功能框图
+PODES-M0O采用三级流水结构。指令处理单元分为取指，译码和执行三个模块。流水线控制、数据相关、结构相关、分支转移、exception插入等控制都统一由主状态机完成。
+PODES-M0O的系统控制包括NVIC，System-tick Timer以及PPB空间寄存器三个部分。PPB空间中与Debug功能相关的寄存器没有实现。
+PODES-M0O提供AHBLite 总线接口、32个IRQ和1个NMI中断输入。外部功能模块可以使用AMBA总线连接到PODES-M0O。
+[PODES_M0O Block Diagram](https://github.com/sunyata000/PODES-M0O/blob/master/images/podes_m0_block_diagram.png?raw=true)
 
-所有的Issue Report或者优化建议，请投送到：www.mcucore.club 相关的页面，或者：podes.mcu@qq.com 。
- 
+## PODES-M0O代码结构
+全部PODES-M0O代码都采用工艺无关的RTL描述(VerilogHDL-2001)，具有较好的可读性。模块层次结构如下图。
+[PODES_M0O Module Hierarchy](https://github.com/sunyata000/PODES-M0O/blob/master/images/podes_m0_hier.png?raw=true)
+
+## 使用方式
+请参考项目中的PODES_M0O_Implementation_User_Manual_V1p2 文档。
+
+
+## 贡献
+
+1. 直接代码贡献请从 master 创建你的分支。
+2. 新的需求或者建议请留言，我会评估并处理。
+3. 如果你修改了或者增加了代码，请提供对应的文档。
+4. 确保代码风格一致 (尽量参考原始代码风格)。
+5. 如果你想资助这个项目，请参考[README_PODES](./README_PODES.md)
+
+## 许可
+
+LGPL
