@@ -24,13 +24,14 @@ PODES-M0O提供AHBLite 总线接口、32个IRQ和1个NMI中断输入。外部功
 <br>
 
 ## PODES-M0O代码结构
-全部PODES-M0O代码都采用工艺无关的RTL描述(VerilogHDL-2001)，具有较好的可读性。模块层次结构如下图。<br>
+全部PODES-M0O代码都采用工艺无关的RTL描述(VerilogHDL-2001)，全部可综合并且经过面积优化。同时代码也具有较好的可读性。<br>
+模块层次结构如下图。<br>
 
 ![PODES_M0O Module Hierarchy](https://github.com/sunyata000/PODES-M0O/blob/master/images/podes_m0o_hier.png?raw=true)
 <br>
 
 ## 使用方式
-请参考项目中的PODES_M0O_Implementation_User_Manual_V1p2 文档。
+顶层接口说明和具体使用方式，请参考项目中的PODES_M0O_Implementation_User_Manual_V1p2 文档。
 <br>
 
 ## 贡献
