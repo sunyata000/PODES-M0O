@@ -20,13 +20,13 @@ PODES-M0O采用三级流水结构。指令处理单元分为取指，译码和�
 PODES-M0O的系统控制包括NVIC，System-tick Timer以及PPB空间寄存器三个部分。PPB空间中与Debug功能相关的寄存器没有实现。<br>
 PODES-M0O提供AHBLite 总线接口、32个IRQ和1个NMI中断输入。外部功能模块可以使用AMBA总线连接到PODES-M0O。<br>
 
-![PODES_M0O Block Diagram](./images/podes_m0o_block_diagram.png)
+![PODES_M0O Block Diagram](https://github.com/sunyata000/PODES-M0O/blob/master/images/podes_m0o_block_diagram.png?raw=true)
 <br>
 
 ## PODES-M0O代码结构
 全部PODES-M0O代码都采用工艺无关的RTL描述(VerilogHDL-2001)，具有较好的可读性。模块层次结构如下图。<br>
 
-![PODES_M0O Module Hierarchy](./images/podes_m0o_hier.png)
+![PODES_M0O Module Hierarchy](https://github.com/sunyata000/PODES-M0O/blob/master/images/podes_m0o_hier.png?raw=true)
 <br>
 
 ## 使用方式
