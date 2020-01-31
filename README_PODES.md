@@ -21,8 +21,10 @@ O（Open Source）系列最基本的作用当然是学习和研究。稍微认�
 完全依赖于您的热心帮助！<br>
 小额赞助、购买FPGA开发板、提供开发支持、甚至是一条建议或者评论，都是鼓舞PODES前行的动力。如果您有意赞助，请使用手机支付扫一扫下面的二维码：<br>
         <div align=center>支付宝扫一扫<br>
+        
 ![](https://github.com/sunyata000/PODES-M0O/raw/master/images/alipay.jpg"支付宝赞赏")<br>
          微信扫一扫 <br>
+        
 ![](https://github.com/sunyata000/PODES-M0O/raw/master/images/wechat.jpg"微信赞赏") </div><br>
 <br>
 <br>
